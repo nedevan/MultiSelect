@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>selectApi-0.1</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="MultiSelect.css">
+</head>
+<body>
+    <style>
+        body { margin: 0; padding: 0; background: blueviolet; display: flex; align-items: center; justify-content: center; flex-direction: column; width: 100%; height: 100vh;}
+
+        .block_for_select { width: 200px; height: 25px; }
+    </style>
+
+    <!-- Селект -->
+    <div class="select">
+        <div class="select-item selected-item">
+            <span>Выберите фильтр</span>
+        </div>
+
+        <!-- Блок спска -->
+        <div class="select-list-block">
+
+            <!-- Список -->
+            <ul class="select-list close">
+                
+                <li id_tag="23" value="Недвижимость" class="select-list-block-item select-item-drop" onclick="ClickSelectItems(event)">
+
+                    <span><i class="fa fa-home" aria-hidden="true"></i>Недвижимость</span>
+                    
+                    <ul class="select-list select-list-inserted">
+                        <li id_tag="22" value="Название 1" class="select-list-block-item" onclick="ClickSelectItems(event)"><span>Название 1</span></li>
+                        <li id_tag="21" value="Название 2" class="select-list-block-item" onclick="ClickSelectItems(event)">Название 2</li>
+                        <li id_tag="18" value="Название 3" class="select-list-block-item" onclick="ClickSelectItems(event)">Название 3</li>
+                    </ul>
+                </li>
+
+                <li id_tag="47" value="Работа" class="select-list-block-item" onclick="ClickSelectItems(event)">
+                    <span><i class="fa fa-briefcase" aria-hidden="true"></i>Работа</span>
+                </li>
+
+                <li id_tag="58" value="Электроника" class="select-list-block-item" onclick="ClickSelectItems(event)">
+                    <span><i class="fa fa-phone-square" aria-hidden="true"></i>Электроника</span>
+                </li>
+
+                <li id_tag="92" value="Дом и сад" class="select-list-block-item select-item-drop" onclick="ClickSelectItems(event)">
+                    <span><i class="fa fa-briefcase" aria-hidden="true"></i>Дом и сад</span>
+                    <ul class="select-list select-list-inserted">
+                        <li id_tag="43" value="Название 1" class="select-list-block-item" onclick="ClickSelectItems(event)">Название 1</li>
+                        <li id_tag="54" value="Название 2" class="select-list-block-item" onclick="ClickSelectItems(event)">Название 2</li>
+                        <li id_tag="588" value="Название 3" class="select-list-block-item" onclick="ClickSelectItems(event)">Название 3</li>
+                    </ul>
+                </li>
+
+                <li id_tag="103" value="Транспорт" class="select-list-block-item" onclick="ClickSelectItems(event)">
+                    <span ><i class="fa fa-car" aria-hidden="true"></i>Транспорт</span>
+                </li>
+
+                <li id_tag="44" value="Семья" class="select-list-block-item" onclick="ClickSelectItems(event)">
+                    <span><i class="fa fa-users" aria-hidden="true"></i>Семья</span>
+                </li>
+
+                <li id_tag="55" value="Животные" class="select-list-block-item" onclick="ClickSelectItems(event)">
+                    <span><i class="fa fa-linux" aria-hidden="true"></i>Животные</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script src="MultiSelect.js"></script>
+<script>
+    (function(window){
+
+        // Конструктор
+        var MultiSelect = function(name, dataExist) {
+
+            if(window === this) return new MultiSelect(name, dataExist);
+
+            this.select = null; 
+
+            // Дефолтные настройки селекта
+            this.options = {
+                data: {
+                    arrayID: "",
+                    arrayString: "",
+                    array: []
+                },
+                dataExist:{
+                    attr: "",
+                    array: []
+                },
+                multiple: true,
+                eventClick: function(data) {}
+            }
+
+            // Проверяем название блока
+            if(typeof name === 'string') this.select = document.querySelectorAll(name);
+
+            // Если это не строка
+            else { this.trowException('Ошибка: Первый параметр принимает в себя class или id'); return this; } 
+
+            if(dataExist !== undefined) this.options.dataExist = dataExist;
+
+            // Создаем селект
+            function init() {
+
+                // console.log(this.select);
+                // console.log(this.options);
+            }
+
+            init();
+
+            return this.options.data;
+        }
+
+        window.MultiSelect = MultiSelect;
+    })(window);
+</script>
+<script>
+
+    var MultiSelect = new MultiSelect(".select");
+
+    // Массив полученных
+    var multiselect = {
+        data: {
+            arrayID: "",
+            arrayString: "",
+            array: []
+        },
+        dataExist:{
+            attr: "id_tag",
+            array: ["55","58"],
+        },
+        multiple: false,
+        eventClick: function(data) { 
+            console.log(data);
+        },
+    };
+
+    // Открыть / Закрыть селект
+    document.onmouseup = function(event) {
+
+        var select_list = document.getElementsByClassName("select-list")[0];
+
+        // Если это селек, открываем / закрываем
+        if(event.target.getAttribute("class") == "select-item selected-item" || event.target.offsetParent != null && event.target.offsetParent.getAttribute("class") == "select-item selected-item") {
+
+            // Открываем
+            if(select_list.getAttribute("class") == "select-list close") select_list.setAttribute("class", "select-list");
+
+            // Закрываем
+            else select_list.setAttribute("class", "select-list close");
+        }
+
+        // Если это что угодно, только не селект
+        else if(select_list.getAttribute("class") == "select-list" && !select_list.contains(event.target)) select_list.setAttribute("class", "select-list close");
+    }
+
+    // Получить Данные селекта
+    function getData() {
+
+        var select_text = document.getElementsByClassName("select-item")[0].querySelector('span');
+
+        // Если есть входные данные
+        if(multiselect.dataExist.array != null && multiselect.dataExist.array.length > 0) {
+
+            // Получаем все ITEMS
+            var arrayItems = document.getElementsByClassName("select-list-block")[0].querySelectorAll('.select-list-block-item');
+
+            for(var i = 0; i < arrayItems.length; i++) {
+
+                for(var j = 0; j < multiselect.dataExist.array.length; j++) {
+
+                    // Если уже item усть в dataExist.array, прожимаем его
+                    if(multiselect.dataExist.array[j] == arrayItems[i].getAttribute(multiselect.dataExist.attr)) { 
+
+                        // Если нет active, add active-item 
+                        if(arrayItems[i].classList[1] == "select-item-drop" && arrayItems[i].classList[2] != "active-item") { arrayItems[i].classList.add("active-item"); }
+
+                        // Если нет active, add active 
+                        if(arrayItems[i].classList[1] != "active-item") { arrayItems[i].classList.add("active-item"); }
+                    }
+                }
+            }
+        }
+
+        // Получаем все ITEMS (активные)
+        var arrayChild = document.getElementsByClassName("select-list-block")[0].querySelectorAll('.active-item');
+
+        multiselect.data.array = new Array();
+
+        multiselect.data.arrayString = "";
+
+        multiselect.data.arrayID = "";
+
+        // Отдаем значения селекта
+        for(var i = 0; i < arrayChild.length; i++) {
+
+            // ID встроенный пользователем в блок
+            var id_tag = arrayChild[i].getAttribute("id_tag");
+
+            // VALUE встроенный пользователем в блок
+            var value = arrayChild[i].getAttribute("value");
+
+            var item = {
+                id: 0,
+                name: ""
+            };
+
+            item.id = id_tag;
+
+            item.name = value;
+
+            // add data.arrayString
+            if(i < arrayChild.length - 1) multiselect.data.arrayString += value + ",";
+            
+            else multiselect.data.arrayString += value;
+
+            // add data.arrayID
+            if(i < arrayChild.length - 1) multiselect.data.arrayID += id_tag + ",";
+            
+            else multiselect.data.arrayID += id_tag;
+
+            // add data.array
+            multiselect.data.array.push(item);
+        }
+    
+        // Отображаем выбранные элементы
+        if(multiselect.data.array.length < 3) select_text.innerHTML = multiselect.data.arrayString;
+
+        else select_text.innerHTML = "Выбрано " + multiselect.data.array.length;
+
+        if(multiselect.data.array.length == 0) select_text.innerHTML = "Выберите фильтр";
+    }
+
+    // Проверям существующие элементы, удаляем их из списка существующих, если на них снова нажали
+    function checkExistData(event) {
+
+        // Если есть входные данные
+        if(multiselect.dataExist.array != null && multiselect.dataExist.array.length > 0) {
+
+            // Элемент на который мы нажали, ищем блок LI c данными
+            for(var i = 0; i < event.path.length; i++) {
+                
+                // Если это LI c данными
+                if(event.path[i].nodeName == "LI") {
+
+                    // проходим по списку dataExist
+                    for(var j = 0; j < multiselect.dataExist.array.length; j++) {
+
+                        // Если это прожатый item, удаляем его из массива существующих
+                        if(event.path[i].getAttribute(multiselect.dataExist.attr) == multiselect.dataExist.array[j]) multiselect.dataExist.array.splice(j, 1);
+                    }
+                }
+            }
+        }
+    }
+
+    // Очистить выбранные ITEM
+    function Clear(event) {
+
+        multiselect.dataExist.attr = "";
+        multiselect.dataExist.array = [];
+
+        var arrayChild = document.getElementsByClassName("select-list-block")[0].querySelectorAll('.active-item');
+
+        for(var i = 0; i < arrayChild.length; i++) {
+
+            // Если есть active
+            if(arrayChild[i].classList[1] == "select-item-drop" && arrayChild[i].classList[2] == "active-item") { arrayChild[i].classList.remove("active-item"); }
+
+            // Если есть active
+            if(arrayChild[i].classList[1] == "active-item") { arrayChild[i].classList.remove("active-item"); }
+        }
+    }
+
+    // Установить item в селект или убрать
+    function setActive(event) {
+
+        checkExistData(event);
+
+        // Элемент на который мы нажали, ищем блок LI c данными
+        for(var i = 0; i < event.path.length; i++) {
+
+            // Если это LI c данными
+            if(event.path[i].nodeName == "LI") {
+
+                // Если нет active, add active-item 
+                if(event.path[i].classList[1] == "select-item-drop" && event.path[i].classList[2] != "active-item") { event.path[i].classList.add("active-item"); return; }
+
+                // Если есть active, remove active-item
+                if(event.path[i].classList[1] == "select-item-drop" && event.path[i].classList[2] == "active-item") { event.path[i].classList.remove("active-item"); return; }
+
+                // Если нет active, add active 
+                if(event.path[i].classList[1] != "active-item") { event.path[i].classList.add("active-item"); return; }
+
+                // Если есть active, remove active
+                if(event.path[i].classList[1] == "active-item") { event.path[i].classList.remove("active-item"); return; }
+            }
+        }
+    }
+
+    // Клик по item списка
+    function ClickSelectItems(event) {
+
+        // отключаем клик по родителю
+        event.stopPropagation();
+        
+        // Если мультиселект включен 
+        if(multiselect.multiple) { setActive(event); getData(); multiselect.eventClick(multiselect.data); }
+
+        // Если мультиселект выключен
+        else { Clear(event); setActive(event); getData(); multiselect.eventClick(multiselect.data); }
+    }
+
+    getData();
+</script>
+</html>

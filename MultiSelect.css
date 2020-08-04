@@ -1,0 +1,51 @@
+/* Сам select */
+.select { position: relative; z-index: 10; width: 200px; height: 35px; -moz-user-select: none; -khtml-user-select: none; user-select: none; }
+
+/* стрелочка инмпут поля */
+.selected-item::after { content: " "; position: absolute; top: 45%; left: 90%; border: 5px solid; border-color: #000 transparent transparent transparent;}
+
+/* Элемент списка */
+.select-item, .select-list li { font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: 600; padding: 5px; border: 1px solid #afafaf; border-radius: 3px; background: #fff; display: flex; align-items: center; justify-content: space-between; cursor: pointer; position: relative; z-index: 9004;}
+
+/* Элемент списка */
+.select-item { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+
+/* Картинка списка */
+.select-item i, .select-list li i { padding-right: 5px; }
+
+/* Нажимаем на элемент списка */
+.select-item:hover, .select-list li:hover { background: #afafaf; }
+
+/* Активный item */
+.active-item { background: #0079DC!important; color: #fff; }
+
+/* Главный список */
+.select-list { position: absolute; top: 110%; left: 0; z-index: 9005; border-radius: 3px; padding: 0; margin: 0; list-style: none; width: 100%; }
+
+.select-item-parent-list { position: relative; }
+
+/* Вставленный список */
+.select-list-inserted { position: absolute; top: -9999em; left: 100%; width: 100%; border-left: 10px solid transparent; opacity: 0; transition: 0.5s opacity; color: #000;}
+
+/* Наводим на элемент списка, где есть вложенный список */
+.select-list li:hover .select-list-inserted { opacity: 1; top: 0; }
+
+/* Элемент главного списка списка */
+.select-list li { border: none; border-radius: 0px; border-left: 1px solid #CED4DA; border-right: 1px solid #CED4DA; }
+
+/* Округляем выпадающие списки сверху */
+.select-list li:first-child { border-top-left-radius: 3px; border-top-right-radius: 3px; border-top: 1px solid #CED4DA; }
+
+/* Округляем выпадающие списки снизу */
+.select-list li:last-child { border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; border-bottom: 1px solid #CED4DA; }
+
+/* Стрелочка элемента с выпдающим списком */
+.select-item-drop::after { content: " "; position: absolute; top: 35%; left: 90%; border: 5px solid; border-color: transparent transparent transparent #000; transition: 0.5s; }
+
+.select-item-drop:hover::after { transform: scaleX(-1); }
+
+.close { display: none; }
+
+/* @media screen and (max-width: 767px) {
+    .select { display: none; }
+} */
